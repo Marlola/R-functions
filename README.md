@@ -11,7 +11,7 @@ argument|description
 ---|---
 x|rater dataset with categorical values (classes)
 min.dist|min distance between points
-sample.size|number of samples per class
+sample.n|number of samples per class
 
 return: 
 SpatialPointDataframe 
