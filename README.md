@@ -7,14 +7,14 @@ some usefull R-functions:
 function
 StratifiedRandomDistance (x, min.dist, sample.size)
 
-argument | description
---|--
-x | rater dataset with categorical values (classes)
-min.dist | min distance between points
-sample.size | number of samples per class
+argument|description
+---|---
+x|rater dataset with categorical values (classes)
+min.dist|min distance between points
+sample.size|number of samples per class
 
-
-return | SpatialPointDataframe 
+return: 
+SpatialPointDataframe 
 
 
 takes some time to compute, because each point is drawn seperately, though as soon as one class is complete, the class is excluded from the sampling. 
