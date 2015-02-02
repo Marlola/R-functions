@@ -4,7 +4,7 @@ some usefull R-functions:
 
 #Stratified Random Sampling including a minimum distance between samples
 
-function
+function:   
 StratifiedRandomDistance (x, min.dist, sample.size)
 
 argument|description
