@@ -2,9 +2,9 @@
 
 some usefull R-functions:
 
-#Stratified Random Sampling including a minimum distance between samples
+#Stratified Random Sampling including a minimum distance between samples points
 
-function:   
+Function:   
 StratifiedRandomDistance (x, min.dist, sample.size)
 
 argument|description
@@ -17,7 +17,7 @@ return:
 SpatialPointDataframe 
 
 
-takes some time to compute, because each point is drawn seperately, though as soon as one class is complete, the class is excluded from the sampling. 
+Takes some time to compute, because each point is drawn seperately, though as soon as one class is complete, the class is excluded from the sampling.   
 a progress bar indicates the percent of drawn random point from the total requested amount.
 if the progress bar does not change anymore, it might not be possible to solve the problem. 
 
