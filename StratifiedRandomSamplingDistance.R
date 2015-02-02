@@ -29,15 +29,15 @@ StratifiedRandomDistance <- function(x, min.dist,  sample.n, progress=TRUE){
   pb <- txtProgressBar(min = 0, max = 100, style = 3)
   classes <- sort(unique(x))  # which unique classes               
   sample.size<- rep(sample.n, length(classes)) # vector of sample sizes to be compared to
-  sample <- sampleRandom(x, 1, sp=FALSE, xy=TRUE) #initial sample
-  
+  sample.init <- sampleRandom(x, 1, sp=FALSE, xy=TRUE) #initial sample
+  current.sample <- rep(0, length(classes)) # initial 
   repeat{
-    sample.tmp <- sampleRandom(x, 1, sp=FALSE, xy=TRUE) # temporary sample
-    dist<- pointDistance(sample[,c(1,2)], sample.tmp[,c(1,2)], lonlat=FALSE) # distant calculation
+    sample.tmp <- sampleRandom(x, 1, sp=FALSE, xy=TRUE) # temporary sample.init
+    dist<- pointDistance(sample.init[,c(1,2)], sample.tmp[,c(1,2)], lonlat=FALSE) # distant calculation
     #print(current.sample)
-    if (all(dist >= min.dist) & sample.size[which(classes==sample.tmp[,3])] > current.sample[which(classes==sample.tmp[,3])]){ # add if min dist and sample size allows
-      sample <- rbind(sample, sample.tmp)
-      current.sample <- tabulate(sample[,3], nbins=length(sample.size)) # how many samples are there 
+    if (all(dist >= min.dist) & sample.size[which(classes==sample.tmp[,3])] > current.sample[which(classes==sample.tmp[,3])]){ # add if min dist and sample.init size allows
+      sample.init <- rbind(sample.init, sample.tmp)
+      current.sample <- tabulate(sample.init[,3], nbins=length(sample.size)) # how many samples are there 
       #print(current.sample)
       if (progress==TRUE){
         setTxtProgressBar(pb, (sum(current.sample)/sum(sample.size))*100)
@@ -51,6 +51,6 @@ StratifiedRandomDistance <- function(x, min.dist,  sample.n, progress=TRUE){
       break
     }
   }
-  sample.sp <-SpatialPointsDataFrame(sample[,c(1,2)], data=as.data.frame(sample), proj4string = CRS(proj4string(x)), match.ID = TRUE) # write to shapefile
+  sample.sp <-SpatialPointsDataFrame(sample.init[,c(1,2)], data=as.data.frame(sample.init), proj4string = CRS(proj4string(x)), match.ID = TRUE) # write to shapefile
   return(sample.sp) # return shape
 }
