@@ -20,6 +20,11 @@
 # if the progress bar does not change anymore, it might not be possible to solve the problem. 
 
 
+#package dependencies:
+library(sp)
+library(raster)
+
+
 StratifiedRandomDistance <- function(x, min.dist,  sample.n, progress=TRUE){ 
   pb <- txtProgressBar(min = 0, max = 100, style = 3)
   classes <- sort(unique(x))  # which unique classes               
