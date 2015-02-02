@@ -10,7 +10,7 @@
 #argument | description
 # x | rater dataset with categorical values (classes)
 # min.dist | min distance between points
-# sample.size | number of samples per class
+# sample.n | number of samples per class
 
 # return | SpatialPointDataframe 
 
@@ -19,9 +19,6 @@
 # a progress bar indicates the percent of drawn random point from the total requested amount.
 # if the progress bar does not change anymore, it might not be possible to solve the problem. 
 
-#x<-tc08
-#min.dist=300
-#sample.n=150
 
 StratifiedRandomDistance <- function(x, min.dist,  sample.n, progress=TRUE){ 
   pb <- txtProgressBar(min = 0, max = 100, style = 3)
