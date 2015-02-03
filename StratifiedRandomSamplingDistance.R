@@ -44,7 +44,7 @@ StratifiedRandomDistance <- function(x, min.dist,  sample.n, progress=TRUE){
       }
     }
     if (sample.size[which(classes==sample.tmp[,3])] == current.sample[which(classes==sample.tmp[,3])]){
-      print(paste ("set",sample.tmp[,3], "to NA"))
+     # print(paste ("set",sample.tmp[,3], "to NA"))
       x[Which(x==sample.tmp[,3])] <- NA
     }
     if (all(current.sample == sample.size)){ # stop when all sample sizes are fullfilled
