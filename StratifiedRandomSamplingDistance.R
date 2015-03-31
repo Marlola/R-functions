@@ -27,7 +27,8 @@ library(raster)
 
 StratifiedRandomDistance <- function(x, min.dist,  sample.n, progress=TRUE){ 
   pb <- txtProgressBar(min = 0, max = 100, style = 3)
-  classes <- sort(unique(x))  # which unique classes               
+  classes <- sort(unique(x))  # which unique classes  
+  cat("UniqueStrata:", classes)
   sample.size<- rep(sample.n, length(classes)) # vector of sample sizes to be compared to
   current.sample <- rep(0, length(classes)) # initial
   sample.init <- sampleRandom(x, 1, sp=FALSE, xy=TRUE) #initial sample
@@ -38,13 +39,13 @@ StratifiedRandomDistance <- function(x, min.dist,  sample.n, progress=TRUE){
     if (all(dist >= min.dist) & sample.size[which(classes==sample.tmp[,3])] > current.sample[which(classes==sample.tmp[,3])]){ # add if min dist and sample.init size allows
       sample.init <- rbind(sample.init, sample.tmp)
       current.sample <- tabulate(sample.init[,3], nbins=max(classes))[classes] # how many samples are there 
-  #    print(current.sample)
+      #    print(current.sample)
       if (progress==TRUE){
         setTxtProgressBar(pb, (sum(current.sample)/sum(sample.size))*100)
       }
     }
     if (sample.size[which(classes==sample.tmp[,3])] == current.sample[which(classes==sample.tmp[,3])]){
-     # print(paste ("set",sample.tmp[,3], "to NA"))
+      # print(paste ("set",sample.tmp[,3], "to NA"))
       x[Which(x==sample.tmp[,3])] <- NA
     }
     if (all(current.sample == sample.size)){ # stop when all sample sizes are fullfilled
