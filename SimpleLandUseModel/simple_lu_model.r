@@ -1,4 +1,4 @@
-# Date: 21.01.2015
+# Date: 3.02.2016
 # author: florian.gollnow@geo.hu-berlin.de
 #
 #
@@ -15,6 +15,9 @@
 # writeRaster | if TRUE, writes Rasters of sceanrios calculation during processing into the woking directory, exapmple: "lu_epoche1.tif"
 # Return:
 # "RasterStack" of cropland expansion scenarios.
+
+#Imortant
+#make sure the rasters have have the same dimension, extent and origine.
 
 
 #Example:
