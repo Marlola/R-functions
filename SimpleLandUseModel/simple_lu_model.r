@@ -25,7 +25,7 @@
 #library(raster)
 #rasterOptions(tmpdir = "q:/carbiocial/florian/data/no_backup/tmp2")
 #
-#lu<- raster("landuse_aggr_res.tif")
+#lu<- raster("landuse_aggr_majclip.tif")
 #suit <- raster("suit_res.tif")
 #protected <- raster("protectedAreas_res.tif")
 #aligne extends and origine
