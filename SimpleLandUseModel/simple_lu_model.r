@@ -47,6 +47,8 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
  
   while (epoche <= nrow(demand)){
     print (paste(epoche, date()))  
+    pb <- txtProgressBar(min=0, max=6)
+    setTxtProgressBar(pb, 1)
     #convert to vector
     if(epoche==1){
     lu_vector <-getValues(lu)
@@ -60,7 +62,7 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
     if (length(protected) > 0){
       protected_vector <- getValues (protected)
     } 
-    
+    setTxtProgressBar(pb, 2)
     if(epoche==1){
       lu_unique <- sort(unique (lu_vector))
     }
@@ -75,6 +77,7 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
     #how much cropland is within protected areas?
     cropProtected <- length (which(lu_vector[protectedIndex]==suitclass))
     
+    setTxtProgressBar(pb, 3)
 #suit.v.tmp <- suit_vector   
 #suit_vector <- suit.v.tmp    
     #apply elas and traj to suit_vector according to lu_vector
@@ -82,7 +85,7 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
       #print (i)
       if (elas[i,] != 0 | traj[i,] != 1){
       #print(i)
-      #ind <- which(lu_vector==i)
+      ind <- which(lu_vector==i)
       #print(head(ind))
       for (a in ind){
         if (elas[i,] != 0){   
@@ -90,7 +93,8 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
         }
         if (traj[i,] != 1){  
         suit_vector [a] <-ifelse (traj[i,]==1, suit_vector[a], NA)
-    }}}}
+        }}}}
+    setTxtProgressBar(pb, 4)
 #suit.n <- setValues(suit , suit_vector) 
 #writeRaster(suit.n , "suit_tmp.tif", overwrite=TRUE)
     #adjust demand according to croplands in protected areas (they just stay the same)
@@ -106,6 +110,7 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
     #suit.al[alloc.index] <- suitclass 
     #suit.al[!alloc.index]<- lu_vector [!alloc.index]
     
+    setTxtProgressBar(pb, 5)
     #convert back to raste
     lu.new <- setValues (lu, lu_new)
     
@@ -115,8 +120,13 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
     if (writeRaster==TRUE){
       writeRaster(lu.new, paste("lu_epoche", epoche,".tif", sep=""))
     }
-    
+    setTxtProgressBar(pb, 6)
     epoche <- epoche +1
   }
   return(stack (mget (paste("scenario", rep(1:nrow(demand)),sep=""))))
 }
+
+
+
+
+
