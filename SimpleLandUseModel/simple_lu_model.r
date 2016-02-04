@@ -13,7 +13,6 @@
 # demand | data.frame of land use demand, number of rows equal the modelling steps, 1 colume for the land use class
 # protected | optional "Rasterlayer" of protected areas classified as 1: Protected, NA: unprotected
 # writeRaster | if TRUE, writes Rasters of sceanrios calculation during processing into the woking directory, exapmple: "scenario_epoche1.tif"
-# loong_loop | FALSE or TRUE, two different approaches for applying the elas and traj settings. if FALSE the model should be much faster.
 
 # Return:
 # "RasterStack" of cropland expansion scenarios.
@@ -38,7 +37,7 @@
 #
 #demand <- data.frame(crop= c(847409+ (847409/5), 847409 +((847409/5)*2),  847409 +((847409/5)*3)+ 847409 +((847409/5)*4), 847409 +((847409/5)*5)))
 #
-#crop.scenario <- simple_lu_model(lu=lu, suit=suit, suitclass=7 ,elas=elas, traj=traj, demand=demand, protected=protected, writeRaster=TRUE, loong_loop =FALSE) 
+#crop.scenario <- simple_lu_model(lu=lu, suit=suit, suitclass=7 ,elas=elas, traj=traj, demand=demand, protected=protected, writeRaster=TRUE) 
 #
 #writeRaster (crop.scenario, filename="sceanrio.tif" , bylayer=TRUE, suffix= "numbers", overwrite=TRUE)
 
