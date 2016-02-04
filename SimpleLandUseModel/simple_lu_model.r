@@ -80,7 +80,8 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
 #writeRaster(suit.n , "suit_tmp.tif")
     #how much cropland is within protected areas?
     cropProtected <- length (which(lu_vector[protectedIndex]==suitclass))
-    
+    rm(protectedIndex)
+	
     setTxtProgressBar(pb, 3)
 #suit.v.tmp <- suit_vector   
 #suit_vector <- suit.v.tmp    
@@ -112,7 +113,8 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
      if (traj[i,] != 1){  
 	 #print ("traj=TRUE")
        suit_vector [ind] <- NA
-    }}#}
+    }
+	rm(ind)}#}
 #}
   
     setTxtProgressBar(pb, 4)
@@ -124,9 +126,12 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
     # allocate cropland demands
     suit.order <- order(suit_vector, na.last = TRUE, decreasing = TRUE)
     alloc.index <- suit.order[1:demand.adj]
+	rm(suit.order)
     #allocate croplands
     lu_new <- lu_vector
     lu_new [alloc.index]<- suitclass
+	rm(lu_vector)
+	rm(alloc.index)
     #suit.al <- suit_vector
     #suit.al[alloc.index] <- suitclass 
     #suit.al[!alloc.index]<- lu_vector [!alloc.index]
@@ -141,6 +146,7 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
     if (writeRaster==TRUE){
       writeRaster(lu.new, paste("sceanrio_epoche", epoche,".tif", sep=""), overwrite=TRUE)
     }
+	rm(lu.new)
     setTxtProgressBar(pb, 6)
     epoche <- epoche +1
   }
