@@ -12,7 +12,9 @@
 # traj | "data.frame" ,rows equal the land cover classes in lu, 1 to max(lu), while the colum represents the land use class to model. value 1 defines allowed transitions, value 0 no transition allowed
 # demand | data.frame of land use demand, number of rows equal the modelling steps, 1 colume for the land use class
 # protected | optional "Rasterlayer" of protected areas classified as 1: Protected, NA: unprotected
-# writeRaster | if TRUE, writes Rasters of sceanrios calculation during processing into the woking directory, exapmple: "lu_epoche1.tif"
+# writeRaster | if TRUE, writes Rasters of sceanrios calculation during processing into the woking directory, exapmple: "scenario_epoche1.tif"
+# loong_loop | FALSE or TRUE, two different approaches for applying the elas and traj settings. if FALSE the model should be much faster.
+
 # Return:
 # "RasterStack" of cropland expansion scenarios.
 
