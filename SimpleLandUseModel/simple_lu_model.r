@@ -139,7 +139,7 @@ if (loong_loop == FALSE){
     assign(paste("scenario", epoche, sep=""), lu.new)
     
     if (writeRaster==TRUE){
-      writeRaster(lu.new, paste("lu_epoche", epoche,".tif", sep=""))
+      writeRaster(lu.new, paste("sceanrio_epoche", epoche,".tif", sep=""), overwrite=TRUE)
     }
     setTxtProgressBar(pb, 6)
     epoche <- epoche +1
