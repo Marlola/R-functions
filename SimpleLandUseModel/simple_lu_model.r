@@ -36,28 +36,30 @@
 #
 #demand <- data.frame(crop= c(847409+ (847409/5), 847409 +((847409/5)*2),  847409 +((847409/5)*3)+ 847409 +((847409/5)*4), 847409 +((847409/5)*5)))
 #
-#crop.scenario <- simple_lu_model(lu=lu, suit=suit.r, suitclass=7 ,elas=elas, traj=traj, demand=demand, protected=prot, writeRaster=FALSE) 
+#crop.scenario <- simple_lu_model(lu=lu, suit=suit, suitclass=7 ,elas=elas, traj=traj, demand=demand, protected=protected, writeRaster=TRUE, loong_loop =FALSE) 
 #
-#writeRaster (crop.scenario, filename="sceanrio.tif" , bylayer=TRUE, suffix= "numbers")
+#writeRaster (crop.scenario, filename="sceanrio.tif" , bylayer=TRUE, suffix= "numbers", overwrite=TRUE)
+
 
 
 #function
-simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=c(), writeRaster=FALSE) {
+simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=c(), writeRaster=FALSE, loong_loop =TRUE) {
   epoche=1
  
   while (epoche <= nrow(demand)){
     print (paste(epoche, date()))  
     pb <- txtProgressBar(min=0, max=6)
     setTxtProgressBar(pb, 1)
+    
     #convert to vector
+    
     if(epoche==1){
     lu_vector <-getValues(lu)
     suit_vector <- getValues (suit)
     suit_vector[is.na(lu_vector)]<- NA
-    } else{
+    } else {
       lu_vector <- lu_new
     }
-    
     
     if (length(protected) > 0){
       protected_vector <- getValues (protected)
@@ -81,7 +83,8 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
 #suit.v.tmp <- suit_vector   
 #suit_vector <- suit.v.tmp    
     #apply elas and traj to suit_vector according to lu_vector
-    for (i in lu_unique){
+if (loong_loop == TRUE){
+      for (i in lu_unique){
       #print (i)
       if (elas[i,] != 0 | traj[i,] != 1){
       #print(i)
@@ -93,7 +96,25 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
         }
         if (traj[i,] != 1){  
         suit_vector [a] <-ifelse (traj[i,]==1, suit_vector[a], NA)
-        }}}}
+        }}}
+}
+#if (loong_loop == FALSE){
+#  for (i in lu_unique){
+#    if (elas[i,] != 0 | traj[i,] != 1){
+#     ind <- which(lu_vector==i)
+#     if (elas[i,] != 0){   
+#       suit_vector [ind] <- suit_vector[ind] + elas [i,]
+#     }
+#     if (traj[i,] != 1){  
+#       suit_vector [ind] <- NA
+#    }}}
+#}
+  
+  
+  
+  
+  
+}  
     setTxtProgressBar(pb, 4)
 #suit.n <- setValues(suit , suit_vector) 
 #writeRaster(suit.n , "suit_tmp.tif", overwrite=TRUE)
@@ -102,7 +123,7 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
     
     # allocate cropland demands
     suit.order <- order(suit_vector, na.last = TRUE, decreasing = TRUE)
-    alloc.index <- summary(suit_vector[suit.order[1:demand.adj]])
+    alloc.index <- suit.order[1:demand.adj]
     #allocate croplands
     lu_new <- lu_vector
     lu_new [alloc.index]<- suitclass
@@ -125,8 +146,3 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
   }
   return(stack (mget (paste("scenario", rep(1:nrow(demand)),sep=""))))
 }
-
-
-
-
-
