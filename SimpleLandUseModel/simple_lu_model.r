@@ -98,17 +98,17 @@ if (loong_loop == TRUE){
         suit_vector [a] <-ifelse (traj[i,]==1, suit_vector[a], NA)
         }}}
 }
-#if (loong_loop == FALSE){
-#  for (i in lu_unique){
-#    if (elas[i,] != 0 | traj[i,] != 1){
-#     ind <- which(lu_vector==i)
-#     if (elas[i,] != 0){   
-#       suit_vector [ind] <- suit_vector[ind] + elas [i,]
-#     }
-#     if (traj[i,] != 1){  
-#       suit_vector [ind] <- NA
-#    }}}
-#}
+if (loong_loop == FALSE){
+  for (i in lu_unique){
+    if (elas[i,] != 0 | traj[i,] != 1){
+     ind <- which(lu_vector==i)
+     if (elas[i,] != 0){   
+       suit_vector [ind] <- suit_vector[ind] + elas [i,]
+     }
+     if (traj[i,] != 1){  
+       suit_vector [ind] <- NA
+    }}}
+}
   
   
   
