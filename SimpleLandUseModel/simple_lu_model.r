@@ -32,7 +32,7 @@
 #
 #lu[Which(lu==0)] <-NA #class 0 is na right?
 #elas <- data.frame(tocrop = c(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0)) # 7 cropland stays cropland
-#traj <- data.frame(tocrop = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)) #if 1 allowed, everything else not allowed
+#traj <- data.frame(tocrop = c(1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1)) #if 1 allowed, everything else not allowed
 #
 #demand <- data.frame(crop= c(847409+ (847409/5), 847409 +((847409/5)*2),  847409 +((847409/5)*3)+ 847409 +((847409/5)*4), 847409 +((847409/5)*5)))
 #
@@ -44,57 +44,79 @@
 #function
 simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=c(), writeRaster=FALSE) {
   epoche=1
-   while (epoche <= nrow(demand)){
+ 
+  while (epoche <= nrow(demand)){
     print (paste(epoche, date()))  
     #convert to vector
+    if(epoche==1){
     lu_vector <-getValues(lu)
     suit_vector <- getValues (suit)
     suit_vector[is.na(lu_vector)]<- NA
+    } else{
+      lu_vector <- lu_new
+    }
+    
+    
     if (length(protected) > 0){
       protected_vector <- getValues (protected)
-    } else { protected_vector=c() }
+    } 
     
     if(epoche==1){
       lu_unique <- sort(unique (lu_vector))
     }
     
+#suit.n <- setValues(suit , suit_vector) 
+#writeRaster(suit.n , "suit_tmp.tif")
     #setNA where protected 
-    protectedIndex <- !is.na(protected_vector)
+    protectedIndex <- which(is.na(protected_vector)==FALSE)
     suit_vector[protectedIndex] <- NA
+#suit.n <- setValues(suit , suit_vector) 
+#writeRaster(suit.n , "suit_tmp.tif")
     #how much cropland is within protected areas?
     cropProtected <- length (which(lu_vector[protectedIndex]==suitclass))
-        
+    
+#suit.v.tmp <- suit_vector   
+#suit_vector <- suit.v.tmp    
     #apply elas and traj to suit_vector according to lu_vector
     for (i in lu_unique){
-      ind <- which(lu_vector==i)
-      suit_vector [ind] <- suit_vector[ind]+elas [i,]
-      suit_vector [ind] <-ifelse (traj[i,]==1, suit_vector[ind], NA)
-    }	
+      #print (i)
+      if (elas[i,] != 0 | traj[i,] != 1){
+      #print(i)
+      #ind <- which(lu_vector==i)
+      #print(head(ind))
+      for (a in ind){
+        if (elas[i,] != 0){   
+        suit_vector [a] <- suit_vector[a]+elas [i,]
+        }
+        if (traj[i,] != 1){  
+        suit_vector [a] <-ifelse (traj[i,]==1, suit_vector[a], NA)
+    }}}}
+#suit.n <- setValues(suit , suit_vector) 
+#writeRaster(suit.n , "suit_tmp.tif", overwrite=TRUE)
     #adjust demand according to croplands in protected areas (they just stay the same)
     demand.adj <- demand [epoche,] - cropProtected
     
     # allocate cropland demands
-    suit.order <- order(suit_vector, na.last = TRUE, decreasing = FALSE)
-    alloc.index <- suit.order[1:demand.adj]
+    suit.order <- order(suit_vector, na.last = TRUE, decreasing = TRUE)
+    alloc.index <- summary(suit_vector[suit.order[1:demand.adj]])
     #allocate croplands
-    lu_vector[alloc.index] <- suitclass 
+    lu_new <- lu_vector
+    lu_new [alloc.index]<- suitclass
+    #suit.al <- suit_vector
+    #suit.al[alloc.index] <- suitclass 
+    #suit.al[!alloc.index]<- lu_vector [!alloc.index]
     
     #convert back to raste
-    lu <- setValues (lu, lu_vector)
+    lu.new <- setValues (lu, lu_new)
     
     #name results
-    assign(paste("scenario", epoche, sep=""), lu)
+    assign(paste("scenario", epoche, sep=""), lu.new)
     
     if (writeRaster==TRUE){
-      writeRaster(lu, paste("lu_epoche", epoche,".tif", sep=""))
+      writeRaster(lu.new, paste("lu_epoche", epoche,".tif", sep=""))
     }
     
     epoche <- epoche +1
   }
   return(stack (mget (paste("scenario", rep(1:nrow(demand)),sep=""))))
 }
-
-
-
-
-
