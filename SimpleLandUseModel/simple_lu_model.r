@@ -43,7 +43,7 @@
 
 
 #function
-simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=c(), writeRaster=FALSE, loong_loop =TRUE) {
+simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=c(), writeRaster=FALSE, loong_loop =FALSE) {
   epoche=1
  
   while (epoche <= nrow(demand)){
