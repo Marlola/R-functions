@@ -85,38 +85,36 @@ simple_lu_model <- function (lu, suit, suitclass ,elas, traj, demand, protected=
 #suit.v.tmp <- suit_vector   
 #suit_vector <- suit.v.tmp    
     #apply elas and traj to suit_vector according to lu_vector
-if (loong_loop == TRUE){
-      for (i in lu_unique){
-      #print (i)
-      #if (elas[i,] != 0  traj[i,] != 1){
-      #print(i)
-      ind <- which(lu_vector==i)
-      #print(head(ind))
-      for (a in ind){
-        if (elas[i,] != 0){   
-        suit_vector [a] <- suit_vector[a]+elas [i,]
-        }
-        if (traj[i,] != 1){  
-        suit_vector [a] <-ifelse (traj[i,]==1, suit_vector[a], NA)
-        }}#}
-}
-if (loong_loop == FALSE){
+#if (loong_loop == TRUE){
+#      for (i in lu_unique){
+#      #print (i)
+#      #if (elas[i,] != 0  traj[i,] != 1){
+#      #print(i)
+#      ind <- which(lu_vector==i)
+#      #print(head(ind))
+#      for (a in ind){
+#        if (elas[i,] != 0){   
+#        suit_vector [a] <- suit_vector[a]+elas [i,]
+#        }
+#        if (traj[i,] != 1){  
+#        suit_vector [a] <-ifelse (traj[i,]==1, suit_vector[a], NA)
+#        }}#}
+#}
+#if (loong_loop == FALSE){
   for (i in lu_unique){
     #if (elas[i,] != 0 | traj[i,] != 1){
-     ind <- which(lu_vector==i)
-     if (elas[i,] != 0){   
+    #print(i) 
+	 ind <- which(lu_vector==i)
+     if (elas[i,] != 0){
+		#print ("elas=TRUE")
        suit_vector [ind] <- suit_vector[ind] + elas [i,]
      }
      if (traj[i,] != 1){  
+	 #print ("traj=TRUE")
        suit_vector [ind] <- NA
     }}#}
-}
+#}
   
-  
-  
-  
-  
-}  
     setTxtProgressBar(pb, 4)
 #suit.n <- setValues(suit , suit_vector) 
 #writeRaster(suit.n , "suit_tmp.tif", overwrite=TRUE)
