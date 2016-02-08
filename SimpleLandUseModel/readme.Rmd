@@ -1,28 +1,29 @@
----
-title: "Simple Land Use Model"
-author: "Florian Gollnow"
-date: "8. Februar 2016"
-output: html_document
+lucR - allocation of land use change 
 ---
 
-The "simple land use model" is adapted alucR version for a one class land use sceanrio. Land use change is modelled based on the suitability surface of the modelled land use class (derived for example via logistic regression) and allocated/expanded over a detailed land use map at initialisation time (lu). The amount of change has to be predefined and may be determined by different local to global demands of food or biofuel production, population growth, urbanisatione, changes in diet, etc.. You can specify elasticities for certain land use trajectories of the modelled land use class. Elasticities should be set beween 0 and 1. Their increse the likelyhood for the transition from the specific land use class to the modelled land use class. This refers for examples to the case that pastures are more likely to be transfered to cropland  (pasture to cropland elas ~0.6) while urban areas are less likely to be converted to cropland (elas ~ 0). the focal land use class should alway be set to 1 to if you do not want a shift in location of the modelled land use class (to keep the initial patterns consistent). Trajectories limit the conversion posibilities. You may set urban to 0, which would not allow the conversion from urban to cropland (in case you model the expansion of cropland). Values of 1 indicate allowed conversions.
+The "simple land use model" is adapted alucR version for a one class land use sceanrio. Land use change is modelled based on the suitability surface of the modelled land use class (derived for example via logistic regression) and allocated/expanded over a detailed land use map at initialisation time (lu). 
+
+The amount of change has to be predefined and may be determined by different local to global demands of food or biofuel production, population growth, urbanisatione, changes in diet, etc.. You can specify elasticities for certain land use trajectories of the modelled land use class.
+
+Elasticities should be set beween 0 and 1. Their increse the likelyhood for the transition from the specific land use class to the modelled land use class. This refers for examples to the case that pastures are more likely to be transfered to cropland  (pasture to cropland elas ~0.6) while urban areas are less likely to be converted to cropland (elas ~ 0). the focal land use class should alway be set to 1 to if you do not want a shift in location of the modelled land use class (to keep the initial patterns consistent). Trajectories limit the conversion posibilities. You may set urban to 0, which would not allow the conversion from urban to cropland (in case you model the expansion of cropland). Values of 1 indicate allowed conversions.
+
 Protected is defined as a rasterlayer with values for Protected Areas (no change areas) and NA for areas outside protected areas.
 Output: 
 RasterStack containing the categorical scenarios of land use allocation for the requested years  
 
-function: simple_lu_model.r
+ ***To Use the Function*** run the code  simple_lu_model.R in your R-console. 
 
 
 
- function:
- simple_lu_model(lu, suit, suitclass, elas, traj, demand,protected, writeRaster)
+# Function definition:
+simple_lu_model(lu, suit, suitclass, elas, traj, demand,protected, writeRaster)
 
- argument | description
- -----|------
- lu | "Rasterlayer" of the initial forestcover classified as 1: forest, 0: noforest
- suit | "Rasterlayer" probabilities of deforestation continuous values between 0 and 1
- elas | "data.frame" , rows equal the land cover classes in lu, 1 to max(lu), while the colum represents the land use class to model. values between 0 and 1 to increase or decrease the suitability according to the previous land use cover
- traj | "data.frame" ,rows equal the land cover classes in lu, 1 to max(lu), while the colum represents the land use class to model. value 1 defines allowed transitions, value 0 no transition allowed
- demand | data.frame of land use demand, number of rows equal the modelling steps, 1 colume for the land use class
- protected | optional "Rasterlayer" of protected areas classified as 1: Protected, NA: unprotected
- writeRaster | if TRUE, writes Rasters of sceanrios calculation during processing into the woking directory, exapmple: "scenario_epoche1.tif"
+argument | description
+-----|------
+lu | "Rasterlayer" of the initial forestcover classified as 1: forest, 0: noforest
+suit | "Rasterlayer" probabilities of deforestation continuous values between 0 and 1
+elas | "data.frame" , rows equal the land cover classes in lu, 1 to max(lu), while the colum represents the land use class to model. values between 0 and 1 to increase or decrease the suitability according to the previous land use cover
+traj | "data.frame" ,rows equal the land cover classes in lu, 1 to max(lu), while the colum represents the land use class to model. value 1 defines allowed transitions, value 0 no transition allowed
+demand | data.frame of land use demand, number of rows equal the modelling steps, 1 colume for the land use class
+protected | optional "Rasterlayer" of protected areas classified as 1: Protected, NA: unprotected
+writeRaster | if TRUE, writes Rasters of sceanrios calculation during processing into the woking directory, exapmple: "scenario_epoche1.tif"
