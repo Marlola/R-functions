@@ -1,18 +1,18 @@
-simple land use model - adapted from alucR
+simple land use model/Deforestation model - adapted from alucR
 ---
 
-The "simple land use model" is adapted alucR (https://github.com/fg-code/alucR) version for a one class land use sceanrio. Land use change is modelled based on a suitability surface of the modelled land use class (derived for example via logistic regression) and allocated/expanded over a detailed land use map at initialisation time (lu). 
+The "simple land use model" is adapted alucR (https://github.com/fg-code/alucR) version for a one class (deforestation/forest reduction) land use sceanrio. Land use (forest) change is modelled based on a suitability surface of the modelled land use class (derived for example via logistic regression) and allocated/expanded over a detailed land use map at initialisation time (lu). 
 
 The amount of change has to be predefined and may be determined by different local to global demands of food or biofuel production, population growth, urbanisatione, changes in diet, etc.. You can specify elasticities for certain land use trajectories of the modelled land use class.
 
-Elasticities should be set beween 0 and 1. Their increse the likelyhood for the transition from the specific land use class to the modelled land use class. This refers for examples to the case that pastures are more likely to be transfered to cropland  (pasture to cropland elas ~0.6) while urban areas are less likely to be converted to cropland (elas ~ 0). the focal land use class should alway be set to 1 to if you do not want a shift in location of the modelled land use class (to keep the initial patterns consistent). Trajectories limit the conversion posibilities. You may set urban to 0, which would not allow the conversion from urban to cropland (in case you model the expansion of cropland). Values of 1 indicate allowed conversions.
+Elasticities should be set beween 0 and 1. They increase the likelyhood for the transition from the specific land use class to the modelled land use class. This refers for examples to the case that pastures are more likely to be transfered to cropland  (pasture to cropland elas ~0.6) while urban areas are less likely to be converted to cropland (elas ~ 0). The focal land use class should alway be set to 1, to hinder a shift in location of the modelled land use class (to keep the initial patterns consistent). Trajectories limit the conversion posibilities. You may set urban to 0, which would not allow the conversion from urban to cropland (in case you model the expansion of cropland). Values of 1 indicate allowed conversions.
 
 Protected is defined as a rasterlayer with values for Protected Areas (no change areas) and NA for areas outside protected areas.
 Output: 
 RasterStack containing the categorical scenarios of land use allocation for the requested years  
 
  ***To Use the Function*** 
- run the code  simple_lu_model.R in your R-console. 
+ run (source) the code  simple_lu_model.R in your R-console. 
 
 
 
