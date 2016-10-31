@@ -1,7 +1,7 @@
 simple land use model/Deforestation model - adapted from alucR
 ---
 
-The "simple land use model" is adapted alucR (https://github.com/fg-code/alucR) version for a one class (deforestation/forest reduction) land use sceanrio. Land use (forest) change is modelled based on a suitability surface of the modelled land use class (derived for example via logistic regression) and allocated/expanded over a detailed land use map at initialisation time (lu). 
+The "simple land use model" is adapted alucR (https://github.com/fg-code/alucR_v1) version for a one class (deforestation/forest reduction) land use sceanrio. Land use (forest) change is modelled based on a suitability surface of the modelled land use class (derived for example via logistic regression) and allocated/expanded over a detailed land use map at initialisation time (lu). 
 
 The amount of change has to be predefined and may be determined by different local to global demands of food or biofuel production, population growth, urbanisatione, changes in diet, etc.. You can specify elasticities for certain land use trajectories of the modelled land use class.
 
